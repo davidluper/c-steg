@@ -1,5 +1,5 @@
 //
-//  c_steg_api.cpp
+//  CStegApi.cpp
 //  c-steg
 //
 //  this file contains what is meant to be the external api for

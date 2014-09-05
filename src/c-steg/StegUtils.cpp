@@ -1,3 +1,8 @@
+//
+//  StegUtils.cpp
+//  c-steg
+//
+
 #include "StegUtils.h"
 #include "JpegUtils.h"
 #include <time.h>

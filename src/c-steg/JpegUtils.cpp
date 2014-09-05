@@ -1,5 +1,5 @@
 //
-//  jpeg_tools.cpp
+//  JpegUtils.cpp
 //	c-steg
 //
 //  this is a layer on top of the The Independent JPEG Group's JPEG software stack in the jpeg folder

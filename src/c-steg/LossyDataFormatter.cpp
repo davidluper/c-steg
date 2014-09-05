@@ -1,5 +1,5 @@
 //
-//  lossy_data_formatter.cpp
+//  LossyDataFormatter.cpp
 //  c-steg
 //
 //  this file contains functions that format and retrieve data into

@@ -1,5 +1,5 @@
 //
-//  lossy_data_formatter.h
+//  LossyDataFormatter.h
 //  c-steg
 //
 

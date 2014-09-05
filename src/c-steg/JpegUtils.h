@@ -1,5 +1,5 @@
 //
-//  jpeg_tools.h
+//  JpegUtils.h
 //  c-steg
 //
 

@@ -1,4 +1,4 @@
-//  c_steg_api.h
+//  CStegApi.h
 //  c-steg
 //
 //  this header file defines what is meant to be the externally visible api

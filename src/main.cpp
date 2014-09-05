@@ -1,63 +1,56 @@
 //
 //  main.cpp
-//  steg
+//  c-steg
 //
 
-#include "jpeg_tools.h"
-#include "lossy_data_formatter.h"
-#include "c_steg_api.h"
+#include "CStegApi.h"
 #include <string.h>
+#include <iostream>
 
 void print_help() {
-    printf("this is the c-steg command line utility\n\n");
+    std::cout << "this is the c-steg command line utility" << std::endl << std::endl;
 
-    printf("\tto encode a lossless jpeg image with text\n");
-    printf("\t\t--encode-lossless\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\t\t--output-file\t\t<required string (path to output image)>\n");
-    printf("\t\t--text\t\t\t<required string>\n");
-    printf("\t\t--quality\t\t<optional int defaults to 71>\n");
-    printf("\t\t--bits-to-steal\t\t<optional int defaults to 2>\n");
-    printf("\n");
+    std::cout << "\tto encode a lossless jpeg image with text" << std::endl;
+    std::cout << "\t\t--encode-lossless" << std::endl;
+    std::cout << "\t\t--input-file\t\t<required string (path to input image)>" << std::endl;
+    std::cout << "\t\t--output-file\t\t<required string (path to output image)>" << std::endl;
+    std::cout << "\t\t--text\t\t\t<required string>" << std::endl;
+    std::cout << "\t\t--quality\t\t<optional int defaults to 71>" << std::endl;
+    std::cout << "\t\t--bits-to-steal\t\t<optional int defaults to 2>" << std::endl;
+    std::cout << "" << std::endl;
 
-    printf("\tto decode a lossless jpeg\n");
-    printf("\t\t--decode-lossless\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\n");
+    std::cout << "\tto decode a lossless jpeg" << std::endl;
+    std::cout << "\t\t--decode-lossless" << std::endl;
+    std::cout << "\t\t--input-file\t\t<required string (path to input image)>" << std::endl;
+    std::cout << "" << std::endl;
 
-    printf("\tto encode a lossy jpeg image with text\n");
-    printf("\t\t--encode-lossy\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\t\t--output-file\t\t<required string (path to output image)>\n");
-    printf("\t\t--text\t\t\t<required string>\n");
-    printf("\t\t--quality\t\t<optional int defaults to 71>\n");
-    printf("\t\t--compressions\t\t<optional int defaults to 5 (number of times to uncompress/recompress the image)>\n");
-    printf("\n");
+    std::cout << "\tto encode a lossy jpeg image with text" << std::endl;
+    std::cout << "\t\t--encode-lossy" << std::endl;
+    std::cout << "\t\t--input-file\t\t<required string (path to input image)>" << std::endl;
+    std::cout << "\t\t--output-file\t\t<required string (path to output image)>" << std::endl;
+    std::cout << "\t\t--text\t\t\t<required string>" << std::endl;
+    std::cout << "\t\t--quality\t\t<optional int defaults to 71>" << std::endl;
+    std::cout << "\t\t--compressions\t\t<optional int defaults to 5 (number of times " << std::endl
+    		<< "\t\t\t\t\t to uncompress/recompress the image before " << std::endl
+    		<< "\t\t\t\t\t encoding the payload)>" << std::endl;
+    std::cout << "" << std::endl;
     
-    printf("\tto decode a lossy jpeg\n");
-    printf("\t\t--decode-lossy\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\n");
+    std::cout << "\tto decode a lossy jpeg" << std::endl;
+    std::cout << "\t\t--decode-lossy" << std::endl;
+    std::cout << "\t\t--input-file\t\t<required string (path to input image)>" << std::endl;
+    std::cout << "" << std::endl;
 
-    printf("\tto get the number of usable coefficients in a file\n");
-    printf("\t\t--coefficients\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\n");
+    std::cout << "\tto get the number of usable coefficients in a file" << std::endl;
+    std::cout << "\t\t--coefficients" << std::endl;
+    std::cout << "\t\t--input-file\t\t<required string (path to input image)>" << std::endl;
+    std::cout << "" << std::endl;
 
-    printf("\tto do a coefficient diff for two jpeg images\n");
-    printf("\t\t--diff\n");
-    printf("\t\t--input-file-1\t\t<required string (path to an image)>\n");
-    printf("\t\t--input-file-2\t\t<required string (path to an image)>\n");
-    printf("\n");
-    
-    printf("\tto do a compression series/diff\n");
-    printf("\t\t--diff-series\n");
-    printf("\t\t--input-file\t\t<required string (path to input image)>\n");
-    printf("\t\t--quality\t\t<optional int defaults to 71>\n");
-    printf("\t\t--compressions\t\t<optional int defaults to 5 (number of times to uncompress/recompress the image)>\n");
-    printf("\n");
-
-    printf("\n");
+    std::cout << "\tto do a coefficient diff for two jpeg images" << std::endl;
+    std::cout << "\t\t--diff" << std::endl;
+    std::cout << "\t\t--input-file-1\t\t<required string (path to an image)>" << std::endl;
+    std::cout << "\t\t--input-file-2\t\t<required string (path to an image)>" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
 }
 
 int main(int argc, const char* argv[])
@@ -73,12 +66,18 @@ int main(int argc, const char* argv[])
     bool decode_lossy = false;
     bool number_of_coefficients = false;
     bool diff = false;
-    bool diff_series = false;
     int quality = 71;
     int number_of_compressions = 5;
     int bits_to_steal = 2;
     
-    for (int i = 0; i < argc; ++i) {
+    if (argc <= 1) {
+    	std::cout << "***********************" << std::endl;
+    	std::cout << "you need to pass in some command line flags, here is the help documentation" << std::endl;
+    	std::cout << "***********************" << std::endl << std::endl;
+    	print_help();
+    }
+
+    for (int i = 1; i < argc; ++i) {
         if (strcmp("--help", argv[i]) == 0) {
             print_help();
             return 0;
@@ -110,52 +109,38 @@ int main(int argc, const char* argv[])
             decode_lossy = true;
         } else if (strcmp("--diff", argv[i]) == 0) {
             diff = true;
-        } else if (strcmp("--diff-series", argv[i]) == 0) {
-            diff_series = true;
+        } else {
+        	throw "invalid command line arg, use --help to see what commands are valid";
         }
     }
 
     if (encode_lossy) {
         unsigned int length = strlen(text);
-        c_steg_encode_lossy_jpeg(input_file, output_file, text, length,  quality, number_of_compressions);
+        CSteg::encodeLossyJpeg(input_file, output_file, text, length,  quality, number_of_compressions);
     } else if (decode_lossy) {
-        unsigned char* data_out = NULL;
-        unsigned int data_out_length = 0;
-        c_steg_decode_lossy_jpeg(input_file, &data_out, &data_out_length);
+        DecodeResponse decodeResponse;
+        CSteg::decodeLossyJpeg(input_file, decodeResponse);
+        std::cout << "data out length: " << decodeResponse.getLength() << std::endl;
         
-        printf("data_out_length: %d\n", data_out_length);        
-        for (int i = 0; i < data_out_length; ++i) {
-            printf("%c", data_out[i]);
-        }
-
-        printf("\n");
-
-        free(data_out);
+        std::string printString;
+        printString.assign(decodeResponse.getData(), decodeResponse.getData() + decodeResponse.getLength());
+        std::cout << printString << std::endl;
     } else if (diff) {
-        do_coefficient_diff(input_file_1, input_file_2);
-    } else if (diff_series) {
-        do_compressions(number_of_compressions, input_file, quality);
-        do_compression_series_coefficient_diffs(number_of_compressions, input_file);
-        purge(input_file, number_of_compressions);
+        CSteg::doCoefficientDiff(input_file_1, input_file_2);
     } else if (encode_lossless) {
         unsigned int length = strlen(text);
-        c_steg_encode_lossless_jpeg(input_file, output_file, (unsigned char*)text, length, bits_to_steal, quality);
-        printf("\n");
+        CSteg::encodeLosslessJpeg(input_file, output_file, (unsigned char*)text, length, bits_to_steal, quality);
+        std::cout << std::endl;
     } else if (decode_lossless) {
-        unsigned char* data_out = NULL;
-        unsigned int data_out_length = 0;
-        
-        c_steg_decode_lossless_jpeg(input_file, &data_out, &data_out_length);
+        DecodeResponse decodeResponse;
+        CSteg::decodeLosslessJpeg(input_file, decodeResponse);
+        std::cout << "data out length: " << decodeResponse.getLength() << std::endl;
 
-        printf("data_out_length: %d\n", data_out_length);
-        for (int i = 0; i < data_out_length; ++i) {
-            printf("%c", data_out[i]);
-        }
-        printf("\n");
-
-        free(data_out);
+        std::string printString;
+        printString.assign(decodeResponse.getData(), decodeResponse.getData() + decodeResponse.getLength());
+        std::cout << printString << std::endl;
     } else if (number_of_coefficients) {
-        printf("number of coefficients in file: %d\n", c_steg_lossless_jpeg_file_get_number_of_coefficients(input_file));
+        std::cout << "number of coefficients in file: " << CSteg::getNumberOfCoefficients(input_file) << std::endl;
     }
 
     return 0;
